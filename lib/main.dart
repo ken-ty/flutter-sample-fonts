@@ -6,7 +6,7 @@ void main() {
 }
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   State<App> createState() => _AppState();
@@ -16,9 +16,23 @@ class _AppState extends State<App> {
   /// 選択中のフォントファミリー
   String _selectedFontFamily = 'Roboto';
 
+  /// 選択中のフォントファミリーを変更する為のコールバック
   void _changeFontFamily(String fontFamily) {
     setState(() {
       _selectedFontFamily = fontFamily;
+    });
+  }
+
+  /// 選択中のfallback用フォントファミリー
+  ///
+  /// 欧文フォント選択中は和文が端末依存になり、
+  /// AndroidでRobotoが選択されて中華風になってしまう問題を防ぐ
+  String _selectedFallbackFontFamily = 'Roboto';
+
+  /// 選択中のfallback用フォントファミリーを変更する為のコールバック
+  void _changeFallbackFontFamily(String fontFamily) {
+    setState(() {
+      _selectedFallbackFontFamily = fontFamily;
     });
   }
 
@@ -29,10 +43,13 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: _selectedFontFamily,
+        fontFamilyFallback: [_selectedFallbackFontFamily],
       ),
       home: SamplePage(
         fontFamily: _selectedFontFamily,
+        fallbackFontFamily: _selectedFallbackFontFamily,
         onChangeFontFamily: _changeFontFamily,
+        onChangeFallbackFontFamily: _changeFallbackFontFamily,
       ),
     );
   }
@@ -40,10 +57,12 @@ class _AppState extends State<App> {
 
 class SamplePage extends StatelessWidget {
   const SamplePage({
-    Key? key,
+    super.key,
     required this.fontFamily,
     required this.onChangeFontFamily,
-  }) : super(key: key);
+    required this.fallbackFontFamily,
+    required this.onChangeFallbackFontFamily,
+  });
 
   /// 選択中のフォントファミリー
   final String fontFamily;
@@ -51,11 +70,17 @@ class SamplePage extends StatelessWidget {
   /// 選択中のフォントファミリーを変更した
   final void Function(String) onChangeFontFamily;
 
+  /// 選択中のfallback用フォントファミリー
+  final String fallbackFontFamily;
+
+  /// 選択中のfallback用フォントファミリーを変更した
+  final void Function(String) onChangeFallbackFontFamily;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(fontFamily),
+        title: Text("$fontFamily(fallback: $fallbackFontFamily)"),
         actions: [
           _ActionIcon(
             icon: Icons.font_download,
@@ -71,11 +96,25 @@ class SamplePage extends StatelessWidget {
               }
             },
           ),
+          _ActionIcon(
+            icon: Icons.font_download_off,
+            onTap: () async {
+              final selected = await showDialog<String>(
+                context: context,
+                builder: (context) => _FontFamilySelectorDialog(
+                  fontFamily: fontFamily,
+                ),
+              );
+              if (selected != null) {
+                onChangeFallbackFontFamily(selected);
+              }
+            },
+          ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             _PreviewTextRow(
               title: 'Normal w100',
               fontWeight: FontWeight.w100,
@@ -125,11 +164,10 @@ class SamplePage extends StatelessWidget {
 
 class _PreviewTextRow extends StatelessWidget {
   const _PreviewTextRow({
-    Key? key,
     required this.title,
     this.fontWeight = FontWeight.normal,
     this.fontStyle = FontStyle.normal,
-  }) : super(key: key);
+  });
 
   /// タイトル
   final String title;
@@ -172,16 +210,13 @@ class _PreviewTextRow extends StatelessWidget {
 
 class _ActionIcon extends StatelessWidget {
   const _ActionIcon({
-    Key? key,
-    required this.icon,
-    this.size = 50.0,
-    this.iconSize = 25.0,
     this.onTap,
-  }) : super(key: key);
+    required this.icon,
+  });
 
   final IconData icon;
-  final double size;
-  final double iconSize;
+  final double size = 48;
+  final double iconSize = 24;
   final VoidCallback? onTap;
 
   @override
@@ -207,9 +242,8 @@ class _ActionIcon extends StatelessWidget {
 
 class _FontFamilySelectorDialog extends StatelessWidget {
   const _FontFamilySelectorDialog({
-    Key? key,
     required this.fontFamily,
-  }) : super(key: key);
+  });
 
   final String fontFamily;
 
@@ -229,6 +263,7 @@ class _FontFamilySelectorDialog extends StatelessWidget {
     FontFamily.mPlus1,
     FontFamily.mPlus2,
     FontFamily.zenKakuGothicAntique,
+    FontFamily.montserrat,
   ];
 
   @override

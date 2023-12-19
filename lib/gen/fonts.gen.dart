@@ -3,7 +3,9 @@
 ///  FlutterGen
 /// *****************************************************
 
-// ignore_for_file: directives_ordering,unnecessary_import
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 class FontFamily {
   FontFamily._();
@@ -22,6 +24,9 @@ class FontFamily {
 
   /// Font family: M PLUS Rounded 1c
   static const String mPLUSRounded1c = 'M PLUS Rounded 1c';
+
+  /// Font family: Montserrat
+  static const String montserrat = 'Montserrat';
 
   /// Font family: Murecho
   static const String murecho = 'Murecho';

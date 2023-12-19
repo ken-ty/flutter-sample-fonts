@@ -2,6 +2,12 @@
 
 Sample to try a custom font.
 
+## フォントの追加
+
+1. [こちらの記事](https://420atk.medium.com/flutter%E3%81%A7googlefont%E3%82%92%E4%BD%BF%E3%81%86-ba073996c773)を参考に Google Fonts からフォントをダウンロードする。
+2. ダウンロードしたフォントは `assets/fonts` に配置する。
+3. https://pub.dev/packages/flutter_gen を使って `fonts.gen.dart` に反映する。`dart run build_runner build` を実行すればよい。
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
