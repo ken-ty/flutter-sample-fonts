@@ -6,7 +6,7 @@ void main() {
 }
 
 class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   State<App> createState() => _AppState();
@@ -41,10 +41,10 @@ class _AppState extends State<App> {
 
 class SamplePage extends StatelessWidget {
   const SamplePage({
-    Key? key,
+    super.key,
     required this.fontFamily,
     required this.onChangeFontFamily,
-  }) : super(key: key);
+  });
 
   /// 選択中のフォントファミリー
   final String fontFamily;
@@ -74,9 +74,9 @@ class SamplePage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             _PreviewTextRow(
               title: 'Normal w100',
               fontWeight: FontWeight.w100,
@@ -126,11 +126,10 @@ class SamplePage extends StatelessWidget {
 
 class _PreviewTextRow extends StatelessWidget {
   const _PreviewTextRow({
-    Key? key,
     required this.title,
     this.fontWeight = FontWeight.normal,
     this.fontStyle = FontStyle.normal,
-  }) : super(key: key);
+  });
 
   /// タイトル
   final String title;
@@ -173,16 +172,13 @@ class _PreviewTextRow extends StatelessWidget {
 
 class _ActionIcon extends StatelessWidget {
   const _ActionIcon({
-    Key? key,
-    required this.icon,
-    this.size = 50.0,
-    this.iconSize = 25.0,
     this.onTap,
-  }) : super(key: key);
+    required this.icon,
+  });
 
   final IconData icon;
-  final double size;
-  final double iconSize;
+  final double size = 48;
+  final double iconSize = 24;
   final VoidCallback? onTap;
 
   @override
@@ -208,9 +204,8 @@ class _ActionIcon extends StatelessWidget {
 
 class _FontFamilySelectorDialog extends StatelessWidget {
   const _FontFamilySelectorDialog({
-    Key? key,
     required this.fontFamily,
-  }) : super(key: key);
+  });
 
   final String fontFamily;
 
