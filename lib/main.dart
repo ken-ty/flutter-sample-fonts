@@ -16,9 +16,23 @@ class _AppState extends State<App> {
   /// 選択中のフォントファミリー
   String _selectedFontFamily = 'Roboto';
 
+  /// 選択中のフォントファミリーを変更する為のコールバック
   void _changeFontFamily(String fontFamily) {
     setState(() {
       _selectedFontFamily = fontFamily;
+    });
+  }
+
+  /// 選択中のfallback用フォントファミリー
+  ///
+  /// 欧文フォント選択中は和文が端末依存になり、
+  /// AndroidでRobotoが選択されて中華風になってしまう問題を防ぐ
+  String _selectedFallbackFontFamily = 'Roboto';
+
+  /// 選択中のfallback用フォントファミリーを変更する為のコールバック
+  void _changeFallbackFontFamily(String fontFamily) {
+    setState(() {
+      _selectedFallbackFontFamily = fontFamily;
     });
   }
 
@@ -29,17 +43,13 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: _selectedFontFamily,
-        fontFamilyFallback: const [
-          FontFamily.notoSansJapanese,
-          // 今回は採用しなかったが、良さげな和文フォント
-          // FontFamily.mPLUS1p,
-          // FontFamily.murecho,
-          // FontFamily.mPlus1,
-        ],
+        fontFamilyFallback: [_selectedFallbackFontFamily],
       ),
       home: SamplePage(
         fontFamily: _selectedFontFamily,
+        fallbackFontFamily: _selectedFallbackFontFamily,
         onChangeFontFamily: _changeFontFamily,
+        onChangeFallbackFontFamily: _changeFallbackFontFamily,
       ),
     );
   }
@@ -50,6 +60,8 @@ class SamplePage extends StatelessWidget {
     super.key,
     required this.fontFamily,
     required this.onChangeFontFamily,
+    required this.fallbackFontFamily,
+    required this.onChangeFallbackFontFamily,
   });
 
   /// 選択中のフォントファミリー
@@ -58,11 +70,17 @@ class SamplePage extends StatelessWidget {
   /// 選択中のフォントファミリーを変更した
   final void Function(String) onChangeFontFamily;
 
+  /// 選択中のfallback用フォントファミリー
+  final String fallbackFontFamily;
+
+  /// 選択中のfallback用フォントファミリーを変更した
+  final void Function(String) onChangeFallbackFontFamily;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(fontFamily),
+        title: Text("$fontFamily(fallback: $fallbackFontFamily)"),
         actions: [
           _ActionIcon(
             icon: Icons.font_download,
@@ -75,6 +93,20 @@ class SamplePage extends StatelessWidget {
               );
               if (selected != null) {
                 onChangeFontFamily(selected);
+              }
+            },
+          ),
+          _ActionIcon(
+            icon: Icons.font_download_off,
+            onTap: () async {
+              final selected = await showDialog<String>(
+                context: context,
+                builder: (context) => _FontFamilySelectorDialog(
+                  fontFamily: fontFamily,
+                ),
+              );
+              if (selected != null) {
+                onChangeFallbackFontFamily(selected);
               }
             },
           ),
