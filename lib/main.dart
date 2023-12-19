@@ -29,7 +29,13 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: _selectedFontFamily,
-        // fontFamilyFallback:
+        fontFamilyFallback: const [
+          FontFamily.notoSansJapanese,
+          // 今回は採用しなかったが、良さげな和文フォント
+          // FontFamily.mPLUS1p,
+          // FontFamily.murecho,
+          // FontFamily.mPlus1,
+        ],
       ),
       home: SamplePage(
         fontFamily: _selectedFontFamily,
