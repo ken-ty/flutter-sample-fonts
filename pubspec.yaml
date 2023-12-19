@@ -218,5 +218,25 @@ flutter:
           weight: 700
         - asset: assets/fonts/Zen_Kaku_Gothic_Antique/ZenKakuGothicAntique-Black.ttf
           weight: 900
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat/static/Montserrat-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Montserrat/static/Montserrat-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Montserrat/static/Montserrat-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Montserrat/static/Montserrat-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Montserrat/static/Montserrat-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat/static/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat/static/Montserrat-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Montserrat/static/Montserrat-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Montserrat/static/Montserrat-Black.ttf
+          weight: 900
 
   uses-material-design: true

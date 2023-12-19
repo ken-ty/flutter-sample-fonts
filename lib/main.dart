@@ -29,6 +29,7 @@ class _AppState extends State<App> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: _selectedFontFamily,
+        // fontFamilyFallback:
       ),
       home: SamplePage(
         fontFamily: _selectedFontFamily,
@@ -229,6 +230,7 @@ class _FontFamilySelectorDialog extends StatelessWidget {
     FontFamily.mPlus1,
     FontFamily.mPlus2,
     FontFamily.zenKakuGothicAntique,
+    FontFamily.montserrat,
   ];
 
   @override
